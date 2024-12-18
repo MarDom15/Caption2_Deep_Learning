@@ -370,7 +370,7 @@ kubectl get svc pneumonia-app
 ```
 ---
 
-🚀 **9️⃣ Vertex AI Integration**
+🚀 **🔟 Vertex AI Integration**
 
 To improve the deployment and scaling of your model, you can integrate Vertex AI for model management and serving.
 
@@ -380,14 +380,6 @@ To improve the deployment and scaling of your model, you can integrate Vertex AI
 
 2. **Using Vertex AI for prediction**:  
    You can also set up a prediction pipeline on **Vertex AI** and make it accessible to your application for real-time inference.
-
----
-
- # CI/CD Pipeline avec Jenkins
-
-## 🚀 9️⃣ Intégration CI/CD avec Jenkins  
-
-Jenkins est un outil puissant pour l’intégration et la livraison continue. Voici comment configurer un pipeline CI/CD avec Jenkins pour automatiser le déploiement de votre projet de détection de pneumonie.  
 
 ---
 # CI/CD Pipeline with Jenkins
