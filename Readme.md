@@ -1,20 +1,21 @@
 # 🌟 Medical Project: Classifying X-Ray Images for Pneumonia Detection
 
 ## 📋 Table of Contents
-1. [Context](#-context)
-2. [Objective](#-objective)
-3. [Tools and Technologies](#-tools-and-technologies)
-4. [Project Steps](#-project-steps)
-   - [Creating and Managing a Google Cloud Account](#1-creating-and-managing-a-google-cloud-account)
-   - [Exploratory Data Analysis (EDA)](#2-exploratory-data-analysis-eda)
-   - [Data Collection and Preparation](#3-data-collection-and-preparation)
-   - [Modeling](#4-modeling)
-   - [Model Evaluation](#5-model-evaluation)
-   - [Containerization with Docker](#5-containerization-with-docker)
-   - [Orchestration with Kubernetes](#6-orchestration-with-kubernetes)
-   - [Monitoring and Observability](#7-monitoring-and-observability)
-5. [Requirements File (`requirements.txt`)](#-requirements-file-requirementstxt)
-6. [README File (`README.md`)](#-readme-file-readmemd)
+1. [Context](#-context)  
+2. [Objective](#-objective)  
+3. [Tools and Technologies](#-tools-and-technologies)  
+4. [Project Steps](#-project-steps)  
+   - [Creating and Managing a Google Cloud Account](#1-creating-and-managing-a-google-cloud-account)  
+   - [Exploratory Data Analysis (EDA)](#2-exploratory-data-analysis-eda)  
+   - [Data Collection and Preparation](#3-data-collection-and-preparation)  
+   - [Modeling](#4-modeling)  
+   - [Model Evaluation](#5-model-evaluation)  
+   - [Containerization with Docker](#6-containerization-with-docker)  
+   - [Orchestration with Kubernetes](#7-orchestration-with-kubernetes)  
+   - [Monitoring and Observability](#8-monitoring-and-observability)  
+   - [Integrating CI/CD Pipeline](#9-integrating-cicd-pipeline)  
+5. [Requirements File (`requirements.txt`)](#-requirements-file-requirementstxt)  
+6. [README File (`README.md`)](#-readme-file-readmemd)  
 
 ---
 
@@ -39,6 +40,7 @@ Automatic pneumonia detection from chest X-ray images can assist in faster diagn
 - **Google Cloud Platform (GCP)** for deployment and monitoring.
 - **Flask** or **Streamlit** for user interface.
 - **Prometheus** and **Grafana** for monitoring.
+- **GitHub Actions** for CI/CD pipelines.
 
 ---
 
@@ -380,6 +382,185 @@ To improve the deployment and scaling of your model, you can integrate Vertex AI
    You can also set up a prediction pipeline on **Vertex AI** and make it accessible to your application for real-time inference.
 
 ---
+
+ # CI/CD Pipeline avec Jenkins
+
+## 🚀 9️⃣ Intégration CI/CD avec Jenkins  
+
+Jenkins est un outil puissant pour l’intégration et la livraison continue. Voici comment configurer un pipeline CI/CD avec Jenkins pour automatiser le déploiement de votre projet de détection de pneumonie.  
+
+---
+# CI/CD Pipeline with Jenkins
+
+## 🚀 1️⃣1️⃣ CI/CD Integration with Jenkins
+
+Jenkins is a powerful tool for continuous integration and delivery. Here’s how to set up a CI/CD pipeline with Jenkins to automate the deployment of your pneumonia detection project.
+
+---
+
+## Installing Jenkins
+
+### Option 1: Local Installation
+```bash
+sudo apt update
+sudo apt install openjdk-11-jdk -y
+wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add -
+sudo sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
+sudo apt update
+sudo apt install jenkins -y
+sudo systemctl start jenkins
+sudo systemctl enable jenkins
+```
+
+### Option 2: Run Jenkins in a Docker Container
+```bash
+docker run -d -p 8080:8080 -p 50000:50000 -v jenkins_home:/var/jenkins_home jenkins/jenkins:lts
+```
+
+### Accessing the Jenkins Dashboard
+Open your browser and navigate to `http://<your-server-ip>:8080`.
+
+Retrieve the initial admin password:
+```bash
+sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+```
+
+Follow the instructions to complete the setup and install the recommended plugins.
+
+### Configuring Required Plugins
+Install the following plugins via Jenkins:
+- Docker Pipeline
+- Git
+- Kubernetes CLI
+- Pipeline: Stage View
+- Blue Ocean (for an interactive pipeline view)
+
+---
+
+## Creating a CI/CD Pipeline
+
+Create a new pipeline in Jenkins and configure the following `Jenkinsfile` in your Git repository:
+
+### Jenkinsfile Example
+```groovy
+pipeline {
+    agent any
+
+    environment {
+        DOCKER_IMAGE = "pneumonia-classifier"
+        DOCKER_TAG = "latest"
+        REGISTRY = "gcr.io/<your-project-id>"
+    }
+
+    stages {
+        stage('Clone Repository') {
+            steps {
+                git branch: 'main', url: 'https://github.com/your-repo/pneumonia-project.git'
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                sh 'pip install -r requirements.txt'
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                sh 'pytest tests/'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t $DOCKER_IMAGE:$DOCKER_TAG .'
+            }
+        }
+
+        stage('Push Docker Image to Registry') {
+            steps {
+                sh 'docker tag $DOCKER_IMAGE:$DOCKER_TAG $REGISTRY/$DOCKER_IMAGE:$DOCKER_TAG'
+                sh 'docker push $REGISTRY/$DOCKER_IMAGE:$DOCKER_TAG'
+            }
+        }
+
+        stage('Deploy to Kubernetes') {
+            steps {
+                sh 'kubectl apply -f deployment.yaml'
+            }
+        }
+    }
+
+    post {
+        always {
+            archiveArtifacts artifacts: '**/logs/*.log', allowEmptyArchive: true
+        }
+        success {
+            echo 'Pipeline completed successfully!'
+        }
+        failure {
+            echo 'Pipeline failed.'
+        }
+    }
+}
+```
+
+---
+
+## Pipeline Steps
+
+1. **Clone Repository**: Downloads the code from the GitHub repository.
+2. **Install Dependencies**: Installs all necessary libraries using the `requirements.txt` file.
+3. **Run Tests**: Runs unit tests with `pytest`.
+4. **Build Docker Image**: Builds a Docker image for the application.
+5. **Push Docker Image**: Publishes the Docker image to Google Container Registry (GCR).
+6. **Deploy to Kubernetes**: Updates the Kubernetes deployment with the new image.
+
+---
+
+## Additional Configuration
+
+### Docker Permissions for Jenkins
+If Jenkins is installed locally, ensure it can access the Docker socket:
+```bash
+sudo usermod -aG docker jenkins
+sudo systemctl restart jenkins
+```
+
+### Adding Kubernetes Credentials to Jenkins
+Add the necessary configurations to allow Jenkins to deploy to your Kubernetes cluster using `kubectl`.
+
+### GitHub Webhook Integration
+Set up a webhook in your GitHub repository to automatically trigger Jenkins builds on every push:
+
+1. Go to your repository settings on GitHub.
+2. Under **Webhooks**, add a new webhook:
+   - **Payload URL**: `http://<jenkins-server>/github-webhook/`
+   - **Content type**: `application/json`
+   - Enable **Push** events.
+
+---
+
+## Build Visualization and Monitoring
+
+- View logs and pipeline status directly in Jenkins.
+- Configure notifications (email, Slack) to stay informed about successes and failures.
+
+---
+
+## Final Outcome
+
+Once the pipeline is set up, each change pushed to the repository will trigger a CI/CD pipeline that:
+
+1. Tests the code.
+2. Builds a new Docker image.
+3. Automatically deploys the application to Kubernetes.
+4. Provides real-time tracking via Jenkins.
+
+
+---
+
+
 
 ## 📜 Requirements File (`requirements.txt`)
 Include all Python dependencies:
