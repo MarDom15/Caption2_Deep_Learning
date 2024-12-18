@@ -359,6 +359,28 @@ spec:
 
 ---
 
+🌐 **9️⃣ Accessing the Application**
+
+Once deployed, you can access the application via the external IP address of the Kubernetes service or using the **LoadBalancer** setup. If you deployed it via **Google Cloud Kubernetes**, you can retrieve the external IP using:
+
+```bash
+kubectl get svc pneumonia-app
+```
+---
+
+🚀 **9️⃣ Vertex AI Integration**
+
+To improve the deployment and scaling of your model, you can integrate Vertex AI for model management and serving.
+
+1. **Deploy your trained model to Vertex AI**:  
+   Use **Vertex AI Workbench** to train models, or directly upload your trained model to Vertex AI for serving.  
+   Follow the Vertex AI model deployment guide for a seamless deployment.
+
+2. **Using Vertex AI for prediction**:  
+   You can also set up a prediction pipeline on **Vertex AI** and make it accessible to your application for real-time inference.
+
+---
+
 ## 📜 Requirements File (`requirements.txt`)
 Include all Python dependencies:
 ```plaintext
