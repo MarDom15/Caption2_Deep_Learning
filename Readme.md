@@ -282,7 +282,7 @@ plt.show()
 
 
 
-### 5️⃣ Containerization with Docker
+### 6️⃣ Containerization with Docker
 1. Create a `Dockerfile`:
 
 ```dockerfile
@@ -306,7 +306,7 @@ CMD ["python", "app.py"]
 
 ---
 
-### 6️⃣ Orchestration with Kubernetes
+### 7️⃣ Orchestration with Kubernetes
 1. Install **kubectl** and configure the Kubernetes cluster on GCP:
    ```bash
    gcloud container clusters create pneumonia-cluster \
@@ -353,7 +353,7 @@ spec:
 
 ---
 
-### 7️⃣ Monitoring and Observability
+### 8️⃣ Monitoring and Observability
 - Install **Prometheus** and **Grafana** in the Kubernetes cluster for monitoring.
 - Set up dashboards to track:
   - Resource usage (CPU, memory).
