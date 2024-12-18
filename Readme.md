@@ -40,7 +40,7 @@ Automatic pneumonia detection from chest X-ray images can assist in faster diagn
 - **Google Cloud Platform (GCP)** for deployment and monitoring.
 - **Flask** or **Streamlit** for user interface.
 - **Prometheus** and **Grafana** for monitoring.
-- **GitHub Actions** for CI/CD pipelines.
+- **Jenkins** for CI/CD pipelines.
 
 ---
 
