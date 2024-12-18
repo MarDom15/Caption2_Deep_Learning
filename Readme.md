@@ -191,9 +191,8 @@ After training the model, it's important to evaluate its performance using vario
 1. **Accuracy**:  
    - **Definition**: The proportion of correctly classified instances over the total instances. It indicates how often the model is correct.
    - **Formula**:  
-     $$
-     \text{Accuracy} = \frac{\text{True Positives} + \text{True Negatives}}{\text{Total Samples}}
-     $$
+   [Accuracy Formula](https://developers.google.com/machine-learning/crash-course/classification/accuracy-precision-recall?hl=fr)
+
 
 2. **Precision**:  
    - **Definition**: The ratio of correctly predicted positive observations to the total predicted positives. It answers the question: *Of all the instances predicted as positive, how many were actually positive?*
@@ -607,3 +606,5 @@ Contributions are welcome. Please open an issue or submit a pull request.
 MIT License
 ```
 project in progress 
+
+[def]: https://developers.google.com/machine-learning/crash-course/classification/accuracy-precision-recall?hl=fr
