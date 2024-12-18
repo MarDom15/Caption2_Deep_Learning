@@ -197,23 +197,17 @@ After training the model, it's important to evaluate its performance using vario
 2. **Precision**:  
    - **Definition**: The ratio of correctly predicted positive observations to the total predicted positives. It answers the question: *Of all the instances predicted as positive, how many were actually positive?*
    - **Formula**:  
-     $$
-     \text{Precision} = \frac{\text{True Positives}}{\text{True Positives} + \text{False Positives}}
-     $$
+   [Precision Formula](https://developers.google.com/machine-learning/crash-course/classification/accuracy-precision-recall?hl=fr) 
 
 3. **Recall (Sensitivity)**:  
    - **Definition**: The ratio of correctly predicted positive observations to all observations in the actual positive class. It answers the question: *Of all the actual positive instances, how many were correctly identified?*
    - **Formula**:  
-     $$
-     \text{Recall} = \frac{\text{True Positives}}{\text{True Positives} + \text{False Negatives}}
-     $$
+   [Recall Formula](https://developers.google.com/machine-learning/crash-course/classification/accuracy-precision-recall?hl=fr)
 
 4. **F1-Score**:  
    - **Definition**: The weighted average of precision and recall, which balances the two metrics. A high F1-Score indicates both high precision and recall.
    - **Formula**:  
-     $$
-     \text{F1-Score} = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}}
-     $$
+   [F1-Score Formula](https://developers.google.com/machine-learning/crash-course/classification/accuracy-precision-recall?hl=fr)
 
 5. **Confusion Matrix**:  
    - **Definition**: A summary of prediction results that helps to identify false positives and false negatives. It provides a clear view of the classifier's performance across all classes.
@@ -223,22 +217,14 @@ After training the model, it's important to evaluate its performance using vario
      - False Positives (FP): Negative instances incorrectly predicted as positive.
      - False Negatives (FN): Positive instances incorrectly predicted as negative.
    - **Formula**:  
-     $$
-     \begin{matrix}
-     & \text{Predicted Normal} & \text{Predicted Pneumonia} \\
-     \text{Actual Normal} & TN & FP \\
-     \text{Actual Pneumonia} & FN & TP
-     \end{matrix}
-     $$
+    [Confusion Matrix Formula](https://developers.google.com/machine-learning/crash-course/classification/accuracy-precision-recall?hl=fr)
 
 6. **ROC Curve & AUC (Area Under the Curve)**:  
    - **Definition**: The Receiver Operating Characteristic curve (ROC) is a graphical representation of a classifier's performance at various thresholds. The AUC is the area under the ROC curve, which quantifies the overall ability of the model to discriminate between positive and negative classes. A higher AUC indicates better performance.
    - **ROC Curve**: Plots the true positive rate (TPR) against the false positive rate (FPR).
    - **AUC**: Measures the entire two-dimensional area underneath the ROC curve.
    - **Formula**:  
-     $$
-     \text{AUC} = \int_0^1 \text{True Positive Rate} \, d(\text{False Positive Rate})
-     $$
+   [ROC Curve Formula](https://developers.google.com/machine-learning/crash-course/classification/accuracy-precision-recall?hl=fr)
 
 ---
 
