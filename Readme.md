@@ -9,6 +9,7 @@
    - [Exploratory Data Analysis (EDA)](#2-exploratory-data-analysis-eda)
    - [Data Collection and Preparation](#3-data-collection-and-preparation)
    - [Modeling](#4-modeling)
+   - [Model Evaluation](#5-model-evaluation)
    - [Containerization with Docker](#5-containerization-with-docker)
    - [Orchestration with Kubernetes](#6-orchestration-with-kubernetes)
    - [Monitoring and Observability](#7-monitoring-and-observability)
@@ -178,8 +179,95 @@ history = model.fit(train_generator, epochs=10, validation_data=validation_gener
 ```
 
 ---
+# 5️⃣ Model Evaluation
 
-### 5️⃣ Containerization with Docker
+After training the model, it's important to evaluate its performance using various metrics. Below are the key evaluation steps:
+
+## 📊 Evaluation Metrics
+
+1. **Accuracy**:  
+   - **Definition**: The proportion of correctly classified instances over the total instances. It indicates how often the model is correct.
+   - **Formula**:  
+     \[
+     \text{Accuracy} = \frac{\text{True Positives} + \text{True Negatives}}{\text{Total Samples}}
+     \]
+
+2. **Precision**:  
+   - **Definition**: The ratio of correctly predicted positive observations to the total predicted positives. It answers the question: *Of all the instances predicted as positive, how many were actually positive?*
+   - **Formula**:  
+     \[
+     \text{Precision} = \frac{\text{True Positives}}{\text{True Positives} + \text{False Positives}}
+     \]
+
+3. **Recall (Sensitivity)**:  
+   - **Definition**: The ratio of correctly predicted positive observations to all observations in the actual positive class. It answers the question: *Of all the actual positive instances, how many were correctly identified?*
+   - **Formula**:  
+     \[
+     \text{Recall} = \frac{\text{True Positives}}{\text{True Positives} + \text{False Negatives}}
+     \]
+
+4. **F1-Score**:  
+   - **Definition**: The weighted average of precision and recall, which balances the two metrics. A high F1-Score indicates both high precision and recall.
+   - **Formula**:  
+     \[
+     \text{F1-Score} = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}}
+     \]
+
+5. **Confusion Matrix**:  
+   - **Definition**: A summary of prediction results that helps to identify false positives and false negatives. It provides a clear view of the classifier's performance across all classes.
+   - **Components**:
+     - True Positives (TP): Correctly predicted positive instances.
+     - True Negatives (TN): Correctly predicted negative instances.
+     - False Positives (FP): Negative instances incorrectly predicted as positive.
+     - False Negatives (FN): Positive instances incorrectly predicted as negative.
+
+6. **ROC Curve & AUC (Area Under the Curve)**:  
+   - **Definition**: The Receiver Operating Characteristic curve (ROC) is a graphical representation of a classifier's performance at various thresholds. The AUC is the area under the ROC curve, which quantifies the overall ability of the model to discriminate between positive and negative classes. A higher AUC indicates better performance.
+   - **ROC Curve**: Plots the true positive rate (TPR) against the false positive rate (FPR).
+   - **AUC**: Measures the entire two-dimensional area underneath the ROC curve.
+
+---
+
+## 📈 Sample Code for Evaluation
+
+The following Python code demonstrates how to compute and visualize the evaluation metrics for the trained model:
+
+```python
+from sklearn.metrics import confusion_matrix, classification_report, roc_curve, auc
+import matplotlib.pyplot as plt
+
+# Predict on test set
+y_pred = model.predict(test_generator)
+y_true = test_generator.classes
+
+# Confusion Matrix
+cm = confusion_matrix(y_true, y_pred.round())
+print("Confusion Matrix:")
+print(cm)
+
+# Classification Report (includes precision, recall, f1-score)
+print("Classification Report:")
+print(classification_report(y_true, y_pred.round()))
+
+# ROC Curve
+fpr, tpr, thresholds = roc_curve(y_true, y_pred)
+roc_auc = auc(fpr, tpr)
+print(f"AUC: {roc_auc}")
+
+# Plot ROC Curve
+plt.figure()
+plt.plot(fpr, tpr, color='darkorange', lw=2, label=f'ROC curve (area = {roc_auc:.2f})')
+plt.plot([0, 1], [0, 1], color='navy', lw=2, linestyle='--')
+plt.xlim([0.0, 1.0])
+plt.ylim([0.0, 1.05])
+plt.xlabel('False Positive Rate')
+plt.ylabel('True Positive Rate')
+plt.title('Receiver Operating Characteristic')
+plt.legend(loc="lower right")
+plt.show()
+
+
+### 5️6️⃣ Containerization with Docker
 1. Create a `Dockerfile`:
 
 ```dockerfile
