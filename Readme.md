@@ -281,7 +281,8 @@ plt.show()
 
 
 
-### 6️⃣ Containerization with Docker
+
+### 5️⃣ Containerization with Docker
 1. Create a `Dockerfile`:
 
 ```dockerfile
