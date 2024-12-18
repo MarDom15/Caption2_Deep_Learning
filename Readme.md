@@ -278,22 +278,20 @@ plt.ylabel('True Positive Rate')
 plt.title('Receiver Operating Characteristic')
 plt.legend(loc="lower right")
 plt.show()
-
-
+```
 ---
 
 ### 6️⃣ Containerization with Docker
-1. Create a `Dockerfile`:
 
-```dockerfile
-FROM python:3.9-slim
-WORKDIR /app
-COPY requirements.txt requirements.txt
-RUN pip install -r requirements.txt
-COPY . .
-CMD ["python", "app.py"]
-```
-
+1. **Create a `Dockerfile`:**
+   ```dockerfile
+   FROM python:3.9-slim
+   WORKDIR /app
+   COPY requirements.txt requirements.txt
+   RUN pip install -r requirements.txt
+   COPY . .
+   CMD ["python", "app.py"]
+   ```
 2. Build the Docker image:
    ```bash
    docker build -t pneumonia-classifier .
